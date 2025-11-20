@@ -11,6 +11,10 @@ func game_over() -> void:
 	$ScoreTimer.stop()
 	$HUD.show_game_over()
 
+	# Stop music and play death sound
+	$Music.stop()
+	$DeathSound.play()
+
 func new_game():
 	score = 0
 
@@ -24,6 +28,9 @@ func new_game():
 
 	# Remove old mobs
 	get_tree().call_group("mobs", "queue_free")
+
+	# Start Music
+	$Music.play()
 
 
 func _on_start_timer_timeout() -> void:
