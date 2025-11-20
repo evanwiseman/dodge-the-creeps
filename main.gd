@@ -9,11 +9,21 @@ func _ready():
 func game_over() -> void:
 	$MobTimer.stop()
 	$ScoreTimer.stop()
+	$HUD.show_game_over()
 
 func new_game():
 	score = 0
+
+	# Place the player
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+
+	# Update the HUD
+	$HUD.update_score(score)
+	$HUD.show_message("Get Ready")
+
+	# Remove old mobs
+	get_tree().call_group("mobs", "queue_free")
 
 
 func _on_start_timer_timeout() -> void:
@@ -23,6 +33,7 @@ func _on_start_timer_timeout() -> void:
 
 func _on_score_timer_timeout() -> void:
 	score += 1
+	$HUD.update_score(score)
 
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
